@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 function TopBar() {
     return (
-        <Wrapper className='font-face-futura-rener'>
+        <Wrapper className='container-fluid font-face-futura-rener'>
             <h1>HOME INSURANCE</h1>
         </Wrapper>
     )

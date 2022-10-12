@@ -56,7 +56,7 @@ function QuoteHeader({ quote }) {
 }
 
 const Wrapper = styled.div`
-    font-size: 4rem;
+    font-size: 1rem;
     li {
         text-align: left;
         color: var(--primary);

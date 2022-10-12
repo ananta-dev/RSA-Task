@@ -71,7 +71,10 @@ function QuotePage() {
                 <div className='alert-info'>
                     <h1>
                         Loading! Please wait...
-                        <i class='fa fa-spinner fa-spin' aria-hidden='true'></i>
+                        <i
+                            className='fa fa-spinner fa-spin'
+                            aria-hidden='true'
+                        ></i>
                     </h1>
                 </div>
                 {quoteIsLoading && (
@@ -87,7 +90,7 @@ function QuotePage() {
                         <h1>
                             Loading addons
                             <i
-                                class='fa fa-spinner fa-spin'
+                                className='fa fa-spinner fa-spin'
                                 aria-hidden='true'
                             ></i>
                         </h1>
@@ -110,16 +113,16 @@ const Styles = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 1.8rem;
     color: #282c34;
 
     .alert-info {
-        font-size: 4rem;
+        font-size: 2.5rem;
         position: relative;
-        padding: 1.5rem 2.5rem;
-        margin: 2rem 0 1rem 0;
+        padding: 1rem 1.5rem;
+        margin: 1.2rem 0 0.6rem 0;
         border: 1px solid transparent;
-        border-radius: 0.25rem;
+        border-radius: 0.17rem;
         color: #155724;
         background-color: #d4edda;
         border-color: #c3e6cb;

@@ -6,21 +6,21 @@ import MoreThanBold from './assets/fonts/MoreThan-bold.woff'
 
 const GlobalStyles = createGlobalStyle`
     * { 
-        margin: 0; 
-        padding: 0; 
-        font-size: 62.5%;
+        /* margin: 0; 
+        padding: 0;  */
+        /* font-size: 62.5%; */
     }
 
-    :root {
+    /* :root {
         box-sizing: border-box;
         --primary: #645cff;
         --mainBorder: 1px solid red;
         --white: #fff;
-    }
+    } */
     
-    *:not(img):not(video):not(svg), *:after, *:before {
+    /* *:not(img):not(video):not(svg), *:after, *:before {
         box-sizing: inherit; 
-    }
+    } */
 
     body {
         margin: 0;

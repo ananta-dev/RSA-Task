@@ -33,8 +33,8 @@ const Styles = styled.article`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1.6rem;
-    padding: 2.5rem 3.5rem 2.9rem 2.9rem;
+    gap: 1rem;
+    padding: 1.6rem 2.2rem 1.8rem 1.8rem;
     background: #f3f1ed;
     border: 0.1rem solid var(--primary);
 
@@ -47,18 +47,18 @@ const Styles = styled.article`
             color: #000;
 
             font-family: MoreThan-Light;
-            font-size: 3.45rem;
+            font-size: 2.15rem;
         }
         .addon-price {
             color: #0c8400;
-            font-size: 3.2rem;
+            font-size: 1.8rem;
             font-family: MoreThan-Regular;
         }
     }
 
     .addon-text {
         text-align: left;
-        font-size: 1.8rem;
+        font-size: 1.2rem;
     }
 
     .add-button-wrapper {
@@ -83,12 +83,12 @@ const Styles = styled.article`
 `
 
 const AddButton = styled.button`
-    border: 0.02rem solid black;
-    border-radius: 0.65rem;
+    border: 0.01rem solid black;
+    border-radius: 0.4rem;
     background: #ddd;
     font-family: MoreThan-Bold;
-    font-size: 2.1rem;
-    padding: 1.3rem 2.5rem;
+    font-size: 1.3rem;
+    padding: 0.8rem 1.6rem;
     /* float: right; */
 `
 

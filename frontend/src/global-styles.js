@@ -55,7 +55,6 @@ const GlobalStyles = createGlobalStyle`
         font-family: 'MoreThan-Bold';
         src: url(${MoreThanBold}) format('woff');
     }
-
 `
 
 export default GlobalStyles

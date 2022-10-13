@@ -15,8 +15,8 @@ function Addons({ addons }) {
     console.log({ addons })
 
     const toggleAddonSelection = addonId => {
-        console.log('toggleAddonSelection')
-        console.log('addonId')
+        // console.log('toggleAddonSelection')
+        // console.log('addonId')
         const newSelectionState = !addonSelection.get(addonId)
         const updatedSelection = new Map(
             addonSelection.set(addonId, newSelectionState)
@@ -28,7 +28,7 @@ function Addons({ addons }) {
     // if (isError) return <h1>Error while fetching addons</h1>
     // if (isLoading) return <Spinner />
 
-    console.log('Addons')
+    // console.log('Addons')
 
     return (
         <Wrapper>

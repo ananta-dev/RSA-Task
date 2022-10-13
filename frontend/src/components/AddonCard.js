@@ -5,11 +5,11 @@ function AddonCard({ addon, toggleAddonSelection }) {
     const { monthlyBilling, addonSelection, setAddonSelection } =
         useQuoteContext()
 
-    console.log('AddonCard')
-    console.log({ monthlyBilling })
+    // console.log('AddonCard')
+    // console.log({ monthlyBilling })
 
     const handleClick = () => {
-        console.log('in handleClick ', addon.title)
+        // console.log('in handleClick ', addon.title)
     }
 
     return (

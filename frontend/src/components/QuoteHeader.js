@@ -6,8 +6,8 @@ function QuoteHeader({ quote }) {
     const { monthlyBilling, setMonthlyBilling, selectedAddonsTotal } =
         useQuoteContext()
 
-    console.log('In QuoteHeader ----------------------')
-    console.log({ monthlyBilling, setMonthlyBilling, selectedAddonsTotal })
+    // console.log('In QuoteHeader ----------------------')
+    // console.log({ monthlyBilling, setMonthlyBilling, selectedAddonsTotal })
 
     // function toggleBilling() {
     //     setMonthlyBilling(prevMonthlyBilling => !prevMonthlyBilling)

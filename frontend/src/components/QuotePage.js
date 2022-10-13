@@ -46,14 +46,14 @@ function QuotePage() {
     //     },0)
     // }
 
-    console.log('QuoteSummary, quote')
-    console.log({ quote, quoteIsLoading, quoteError })
+    // console.log('QuoteSummary, quote')
+    // console.log({ quote, quoteIsLoading, quoteError })
 
-    console.log('QuoteSummary, addons')
-    console.log({ addons, addonsAreLoading, addonsError })
+    // console.log('QuoteSummary, addons')
+    // console.log({ addons, addonsAreLoading, addonsError })
 
-    console.log('Addon Selection:')
-    console.log({ addonSelection, setAddonSelection })
+    // console.log('Addon Selection:')
+    // console.log({ addonSelection, setAddonSelection })
 
     return (
         <QuoteContext.Provider

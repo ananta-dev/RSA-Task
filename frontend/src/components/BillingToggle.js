@@ -9,8 +9,8 @@ const BillingToggle = ({ monthlyBilling, setMonthlyBilling }) => {
         setMonthlyBilling(prev => !prev)
     }
 
-    console.log('Toggle Billing')
-    console.log({ checked, monthlyBilling })
+    // console.log('Toggle Billing')
+    // console.log({ checked, monthlyBilling })
 
     return (
         <Label>

@@ -3,7 +3,7 @@ import useSWR from 'swr'
 function useFetchQuote() {
     const { data, error } = useSWR('/quote')
 
-    console.log({ data })
+    // console.log({ data })
 
     return {
         quote: data ? data[0] : null,

@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-import reportWebVitals from './../reportWebVitals'
 
 function TopBar() {
     return (
-        <Styles className='container-fluid border border-dark mb-4'>
+        <Styles className='container-fluid border border-dark'>
             <div className='row px-4'>
                 <span>HOME INSURANCE</span>
             </div>
@@ -12,6 +11,12 @@ function TopBar() {
 }
 
 const Styles = styled.div`
+    margin-bottom: 1rem;
+
+    @media (max-width: 992px) {
+        margin-bottom: 0;
+    }
+
     div {
         background-color: white;
     }

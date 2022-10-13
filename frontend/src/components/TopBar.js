@@ -1,22 +1,25 @@
 import styled from 'styled-components'
+import reportWebVitals from './../reportWebVitals'
 
 function TopBar() {
     return (
-        <Wrapper className='container-fluid font-face-futura-rener'>
-            <h1>HOME INSURANCE</h1>
-        </Wrapper>
+        <Styles className='container-fluid border border-dark mb-4'>
+            <div className='row px-4'>
+                <span>HOME INSURANCE</span>
+            </div>
+        </Styles>
     )
 }
 
-const Wrapper = styled.div`
-    background: #ddd;
-    border: 0.15rem solid var(--primary);
+const Styles = styled.div`
+    div {
+        background-color: white;
+    }
 
-    h1 {
+    span {
         font-family: 'FuturaRener';
-        font-size: calc(1rem + 5vmin);
+        font-size: calc(1.2rem + 2vmin);
         letter-spacing: 0.1rem;
-        background: white;
         color: #0c8300;
         font-weight: lighter;
         font-weight: 500;

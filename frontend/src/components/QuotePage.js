@@ -7,6 +7,13 @@ import TopBar from './TopBar'
 import spinner from '../assets/images/spinner.gif'
 import StickyFooter from './StickyFooter'
 
+function mapToJson(map) {
+    return JSON.stringify([...map])
+}
+function jsonToMap(jsonStr) {
+    return new Map(JSON.parse(jsonStr))
+}
+
 function QuotePage() {
     const [monthlyBilling, setMonthlyBilling] = useState(true)
     const [addonSelection, setAddonSelection] = useState(new Map())
@@ -14,9 +21,18 @@ function QuotePage() {
         monthly: 0,
         annual: 0,
     })
-
     const { quote, quoteIsLoading, quoteError } = useFetchQuote()
     const { addons, addonsAreLoading, addonsError } = useFetchAddons()
+
+    useEffect(() => {
+        setAddonSelection(
+            jsonToMap(window.localStorage.getItem('addonSelection'))
+        )
+    }, [])
+
+    useEffect(() => {
+        window.localStorage.setItem('addonSelection', mapToJson(addonSelection))
+    }, [addonSelection])
 
     useEffect(() => {
         if (addons) {
@@ -52,7 +68,12 @@ function QuotePage() {
                     : prev,
             [0, 0]
         )
+        window.localStorage.setItem(
+            'addonSelection',
+            JSON.stringify(updatedSelection)
+        )
         setAddonSelection(updatedSelection)
+
         setTotalPrice({
             monthly: quote.monthlyPrice + addonsMonthlyTotal,
             annual: quote.annualPrice + addonsAnnualTotal,

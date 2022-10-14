@@ -17,27 +17,9 @@ function QuotePage() {
     const { quote, quoteIsLoading, quoteError } = useFetchQuote()
     const { addons, addonsAreLoading, addonsError } = useFetchAddons()
 
-    // Set addonSelection with user addon selection saved to localStorage or new empty user
-    // selection created from addons if no addonSelection is found in localStorage
-    // IMPORTANT: This assumes the addons fetched from API do not change during the session
-    useEffect(() => {
-        if (addons) {
-            const storedAddonSelection = window.localStorage.getItem(
-                'RSA-Task-addonSelection'
-            )
-            if (storedAddonSelection) {
-                setAddonSelection(new Map(JSON.parse(storedAddonSelection)))
-            } else {
-                const noAddonSelected = new Map()
-                addons.forEach(addon => {
-                    noAddonSelected.set(addon.id, false)
-                    setAddonSelection(noAddonSelected)
-                })
-            }
-        }
-    }, [addons])
-
-    // Load monthlyBilling (billing period selection) from localStorage if available
+    // Load monthlyBilling (billing period selection) and addonSelection
+    // from localStorage if found there and set them.
+    // This preserves choices in case of browser refresh (F5).
     useEffect(() => {
         const storedMonthlyBilling = window.localStorage.getItem(
             'RSA-Task-monthlyBilling'
@@ -45,44 +27,65 @@ function QuotePage() {
         if (storedMonthlyBilling) {
             setMonthlyBilling(JSON.parse(storedMonthlyBilling))
         }
+
+        const storedAddonSelection = window.localStorage.getItem(
+            'RSA-Task-addonSelection'
+        )
+        if (storedAddonSelection) {
+            const updatedSelection = new Map(JSON.parse(storedAddonSelection))
+            setAddonSelection(updatedSelection)
+        }
     }, [])
 
+    // If addons has been fetched and set, and addonSelection has not been set,
+    // as in not available in local storage, then set addonSelection to a new
+    // empty selection with no addon selected).
     useEffect(() => {
-        if (quote) {
+        if (addons && !addonSelection) {
+            const noAddonSelected = new Map()
+            addons.forEach(addon => {
+                noAddonSelected.set(addon.id, false)
+            })
+            setAddonSelection(noAddonSelected)
+        }
+    }, [addons])
+
+    // If quote, addons or addonSelection change, and none of them is null,
+    // it it time to calculate and set the total price.
+    useEffect(() => {
+        if (quote && addons && addonSelection) {
+            const [addonsMonthlyTotal, addonsAnnualTotal] = addons.reduce(
+                (prev, addon) =>
+                    addonSelection.get(addon.id)
+                        ? [
+                              prev[0] + addon.monthlyPrice,
+                              prev[1] + addon.annualPrice,
+                          ]
+                        : prev,
+                [0, 0]
+            )
             setTotalPrice({
-                monthly: quote.monthlyPrice,
-                annual: quote.annualPrice,
+                monthly: quote.monthlyPrice + addonsMonthlyTotal,
+                annual: quote.annualPrice + addonsAnnualTotal,
             })
         }
-    }, [quote])
+    }, [quote, addons, addonSelection])
 
+    // When we change the selection status of one addon, we also save
+    // the selection state of all addons (addonSelection) to local storage.
     const toggleAddonSelection = addonId => {
         const newSelectionState = !addonSelection.get(addonId)
         const updatedSelection = new Map(
             addonSelection.set(addonId, newSelectionState)
-        )
-        const [addonsMonthlyTotal, addonsAnnualTotal] = addons.reduce(
-            (prev, addon) =>
-                updatedSelection.get(addon.id)
-                    ? [
-                          prev[0] + addon.monthlyPrice,
-                          prev[1] + addon.annualPrice,
-                      ]
-                    : prev,
-            [0, 0]
         )
         window.localStorage.setItem(
             'RSA-Task-addonSelection',
             JSON.stringify([...updatedSelection])
         )
         setAddonSelection(updatedSelection)
-
-        setTotalPrice({
-            monthly: quote.monthlyPrice + addonsMonthlyTotal,
-            annual: quote.annualPrice + addonsAnnualTotal,
-        })
     }
 
+    // When we change the billing period, we save it to local storage.
     const toggleBillingPeriod = () => {
         window.localStorage.setItem(
             'RSA-Task-monthlyBilling',
@@ -112,7 +115,8 @@ function QuotePage() {
                     </div>
                 )}
 
-                {/* Note: Proper error management is required for data fetching */}
+                {/* Note: Proper error management is required for data fetching. */}
+                {/* This is a temporary solution in case the API is not working. */}
                 {(quoteError || addonsError) && (
                     <h1>
                         Errors encountered while retrieving data from the

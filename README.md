@@ -4,7 +4,7 @@ Author: Juan Guirao
 
 ## Live App and Deployment Notes
 
-Want to jump right in? See the app in action [here](https://rsa-task.netlify.app/).
+Want to jump right in? See the app in action [here](https://rsa.freenrg.dev/).
 
 The JSON-Server fake backend API provided has been converted to a tiny server and deployed to cyclic.sh. Please note I have added a unique id property to each addon in the db.json file.
 
@@ -12,7 +12,7 @@ You may access the backend API here: [https://weary-pink-coypu.cyclic.app/](http
 Quote endpoint: [https://weary-pink-coypu.cyclic.app/quote](https://weary-pink-coypu.cyclic.app/quote)
 Addons endpoint: [https://weary-pink-coypu.cyclic.app/addons](https://weary-pink-coypu.cyclic.app/addons)
 
-The frontend has been deployed to Netlify, and this is the URL: [https://rsa-task.netlify.app/](https://rsa-task.netlify.app/)
+The frontend has been deployed to Netlify, and this is the URL: [https://rsa.freenrg.dev/](https://rsa.freenrg.dev/)
 
 If you wish to run the JSON Server localy on your computer, you will need change the API URL in App.js. To do so, uncomment this line of text:
 

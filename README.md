@@ -68,6 +68,24 @@ As the user scrolls down, the total price at the top of the page disappears from
 
 The sticky footer has been implemented with the help of a lesser known library: **React-hide-on-scroll**. It is probably a risky decision to include this unknown library. A safer and more robust solution would be to implement the sticky footer from scratch, but I decided to go with a library to save some time.
 
+## A Word About the Design of the Components Used
+
+I started building the webpage with a design of many small React components but finally decided to use only two main components (**QuotePage** and **AddonCard**), which a couple of small auxiliay ones.
+
+### Initial Design (DISCARDED)
+
+My initial plan was to break the webpage into a relatively large number of components with small amount of code each. To avoid drilling down props I would use the Context API with the useContext hook.
+
+![alt text](http://url/to/img.png)
+
+This was working out well, but I felt having so many components for a relatively simple webpage was adding unnecessary complexity.
+
+### Final Design (USED)
+
+I decided to base the decision to create separate components on whether these was going to be reused several times (such as the **AddonCard**), or its function was separate enough from the main component and did not tightly coupled with the QuotePage component by shared data (the case with **StickyFooter** or **TopBar**).
+
+This is what the final design looks like (aside from **StickyFooter** and **TopBar**):
+
 ## Further Work
 
 There are several improvements to the webpage I have been thinking of making:

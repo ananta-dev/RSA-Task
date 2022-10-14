@@ -82,7 +82,7 @@ This was working out well, but I felt having so many components for a relatively
 
 ### Final Design (USED)
 
-I decided to base the decision to create separate components on whether these was going to be reused several times (such as the **AddonCard**), or its function was separate enough from the main component and did not tightly coupled with the QuotePage component by shared data (the case with **StickyFooter** or **TopBar**).
+I decided to base the decision to create separate components on whether these was going to be reused several times (such as the **AddonCard**), or its function was separate enough from the main component and did not tightly coupled with the **QuotePage** component by shared data (the case with **StickyFooter** or **TopBar**).
 
 This is what the final design looks like (aside from **StickyFooter** and **TopBar**):
 

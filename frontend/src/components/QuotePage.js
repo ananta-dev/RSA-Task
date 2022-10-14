@@ -7,16 +7,16 @@ import TopBar from './TopBar'
 import spinner from '../assets/images/spinner.gif'
 import StickyFooter from './StickyFooter'
 
-function mapToJson(map) {
+const mapToJson = map => {
     return JSON.stringify([...map])
 }
-function jsonToMap(jsonStr) {
-    return new Map(JSON.parse(jsonStr))
-}
+// const jsonToMap = jsonStr => {
+//     return new Map(JSON.parse(jsonStr))
+// }
 
 function QuotePage() {
     const [monthlyBilling, setMonthlyBilling] = useState(true)
-    const [addonSelection, setAddonSelection] = useState(new Map())
+    const [addonSelection, setAddonSelection] = useState(null)
     const [totalPrice, setTotalPrice] = useState({
         monthly: 0,
         annual: 0,
@@ -24,25 +24,35 @@ function QuotePage() {
     const { quote, quoteIsLoading, quoteError } = useFetchQuote()
     const { addons, addonsAreLoading, addonsError } = useFetchAddons()
 
-    useEffect(() => {
-        setAddonSelection(
-            jsonToMap(window.localStorage.getItem('addonSelection'))
-        )
-    }, [])
-
-    useEffect(() => {
-        window.localStorage.setItem('addonSelection', mapToJson(addonSelection))
-    }, [addonSelection])
-
+    // Set addonSelection with user addon selection saved to localStorage or new empty user
+    // selection created from addons if no addonSelection is found in localStorage
+    // IMPORTANT: This assumes the addons fetched from API do not change during the session
     useEffect(() => {
         if (addons) {
-            const noAddonSelected = new Map()
-            addons.forEach(addon => {
-                noAddonSelected.set(addon.id, false)
-            })
-            setAddonSelection(noAddonSelected)
+            const storedAddonSelection = window.localStorage.getItem(
+                'RSA-Task-addonSelection'
+            )
+            if (storedAddonSelection) {
+                setAddonSelection(new Map(JSON.parse(storedAddonSelection)))
+            } else {
+                const noAddonSelected = new Map()
+                addons.forEach(addon => {
+                    noAddonSelected.set(addon.id, false)
+                    setAddonSelection(noAddonSelected)
+                })
+            }
         }
     }, [addons])
+
+    // Load monthlyBilling (billing period selection) from localStorage if available
+    useEffect(() => {
+        const storedMonthlyBilling = window.localStorage.getItem(
+            'RSA-Task-monthlyBilling'
+        )
+        if (storedMonthlyBilling) {
+            setMonthlyBilling(JSON.parse(storedMonthlyBilling))
+        }
+    }, [])
 
     useEffect(() => {
         if (quote) {
@@ -69,8 +79,8 @@ function QuotePage() {
             [0, 0]
         )
         window.localStorage.setItem(
-            'addonSelection',
-            JSON.stringify(updatedSelection)
+            'RSA-Task-addonSelection',
+            JSON.stringify([...updatedSelection])
         )
         setAddonSelection(updatedSelection)
 
@@ -81,6 +91,10 @@ function QuotePage() {
     }
 
     const toggleBillingPeriod = () => {
+        window.localStorage.setItem(
+            'RSA-Task-monthlyBilling',
+            JSON.stringify(!monthlyBilling)
+        )
         setMonthlyBilling(prev => !prev)
     }
 
@@ -169,7 +183,7 @@ function QuotePage() {
                 )}
 
                 {/* -------- Addons Section -------- */}
-                {addons && (
+                {addons && addonSelection && (
                     <>
                         <div className='row px-4 fs-1'>
                             <div className='col-12 py-2 '>

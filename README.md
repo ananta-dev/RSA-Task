@@ -76,15 +76,17 @@ I started building the webpage with a design of many small React components but 
 
 My initial plan was to break the webpage into a relatively large number of components with small amount of code each. To avoid drilling down props I would use the Context API with the useContext hook.
 
-![alt text](http://url/to/img.png)
+![Initial design (Discarded)](https://github.com/ananta-dev/RSA-Task/blob/main/readme-images/OriginalDesign.PNG?raw=true)
 
-This was working out well, but I felt having so many components for a relatively simple webpage was adding unnecessary complexity.
+This was working out well, but I felt having so many components for a relatively simple webpage was adding unnecessary complexity and taking too long.
 
 ### Final Design (USED)
 
 I decided to base the decision to create separate components on whether these was going to be reused several times (such as the **AddonCard**), or its function was separate enough from the main component and did not tightly coupled with the QuotePage component by shared data (the case with **StickyFooter** or **TopBar**).
 
 This is what the final design looks like (aside from **StickyFooter** and **TopBar**):
+
+![Initial design (Discarded)](https://github.com/ananta-dev/RSA-Task/blob/main/readme-images/FinalDesign.PNG?raw=true)
 
 ## Further Work
 

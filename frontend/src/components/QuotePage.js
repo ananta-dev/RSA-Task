@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { HideOn } from 'react-hide-on-scroll'
 import useFetchQuote from '../hooks/useFetchQuote'
 import useFetchAddons from '../hooks/useFetchAddons'
 import AddonCard from './AddonCard'
 import TopBar from './TopBar'
 import spinner from '../assets/images/spinner.gif'
+import StickyFooter from './StickyFooter'
 
 function QuotePage() {
     const [monthlyBilling, setMonthlyBilling] = useState(true)
@@ -152,7 +152,7 @@ function QuotePage() {
                     <>
                         <div className='row px-4 fs-1'>
                             <div className='col-12 py-2 '>
-                                Tailor your cover with our optional extra
+                                Tailor your cover with our optional extras
                             </div>
                         </div>
                         <div className='row px-4 mb-5 pb-5'>
@@ -170,21 +170,12 @@ function QuotePage() {
                 )}
             </div>
 
-            {quote && addons && (
-                <HideOn divID='price-div' inverse>
-                    <div className='sticky-footer'>
-                        <span className='fs-1 footer-amount'>
-                            £
-                            {monthlyBilling
-                                ? totalPrice.monthly.toFixed(2)
-                                : totalPrice.annual.toFixed(2)}
-                        </span>
-                        <span className='fs-6 footer-period'>
-                            {monthlyBilling ? 'A MONTH' : 'A YEAR'}
-                        </span>
-                    </div>
-                </HideOn>
-            )}
+            {/* -------- Sticky Footer shows total price when price in summary is not visible -------- */}
+            <StickyFooter
+                dataFetched={quote && addons}
+                monthlyBilling={monthlyBilling}
+                totalPrice={totalPrice}
+            />
         </Styles>
     )
 }
@@ -237,29 +228,6 @@ const Styles = styled.div`
         min-height: 2rem;
     }
 
-    /* <div className='col d-flex justify-content-end pe-5 me-5' >
-     */
-    .sticky-footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 4.5rem;
-        line-height: 60px;
-        text-align: center;
-        color: #fff;
-        background-color: #0c8400;
-        box-shadow: 0 -1px 15px 3px black;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        .footer-amount {
-            margin: 0 1rem 0.5rem 0;
-        }
-        .footer-period {
-            margin: 0 11rem 0.17rem 0;
-        }
-    }
-
     @media (max-width: 768px) {
         .total-price {
             font-size: 3rem;
@@ -267,19 +235,6 @@ const Styles = styled.div`
 
         .tax-text {
             min-height: 3rem;
-        }
-
-        .sticky-footer {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 5.5rem;
-            .footer-amount,
-            .footer-period {
-                margin: 0;
-                padding: 0;
-                line-height: 2rem;
-            }
         }
     }
 `

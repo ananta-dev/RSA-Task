@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 function AddonCard({ addon, selected, monthlyBilling, toggleAddonSelection }) {
     const handleClick = () => {
-        // console.log('in handleClick ', addon.title)
         toggleAddonSelection(addon.id)
     }
 
@@ -25,7 +24,7 @@ function AddonCard({ addon, selected, monthlyBilling, toggleAddonSelection }) {
                     </div>
                     <p className='card-text mt-1 addon-text'>{addon.text}</p>
                 </div>
-                <div className='card-footer bg-white border-0 d-flex justify-content-end gap-2'>
+                <div className='card-footer bg-white border-0 d-flex gap-2'>
                     {selected && (
                         <RemoveButton onClick={handleClick}>
                             Remove this
@@ -60,6 +59,17 @@ const AddButton = styled.button`
         props.disabled
             ? 'background-color: #f2af00; color: #000; border: none;'
             : ''}
+
+    @media (max-width: 768px) {
+        /* width: 8rem; */
+        min-width: 8rem;
+        padding: 0.7rem 1rem;
+    }
+
+    @media (max-width: 414px) {
+        padding: 0.7rem 0;
+        min-width: 100%;
+    }
 `
 
 const RemoveButton = styled.button`
@@ -71,6 +81,17 @@ const RemoveButton = styled.button`
     font-size: 1.3rem;
     min-width: 13rem;
     padding: 0.7rem 1.3rem;
+
+    @media (max-width: 768px) {
+        /* width: 8rem; */
+        min-width: 8rem;
+        padding: 0.7rem 1rem;
+    }
+
+    @media (max-width: 414px) {
+        padding: 0.7rem 0;
+        min-width: 100%;
+    }
 `
 
 const Styles = styled.div`
@@ -93,9 +114,27 @@ const Styles = styled.div`
         font-size: 1.1rem;
     }
 
+    .card-footer {
+        justify-content: flex-end;
+    }
+
     @media (max-width: 768px) {
         .title-and-price {
             flex-direction: column;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .card-footer {
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 414px) {
+        .card-footer {
+            flex-direction: column;
+            align-items: center;
         }
     }
 `

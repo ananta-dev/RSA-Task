@@ -4,7 +4,7 @@ import axios from 'axios'
 import NewQuotePage from './components/QuotePage'
 import GlobalStyles from './global-styles'
 
-// axios.defaults.baseURL = 'http://localhost:4000'
+// axios.defaults.baseURL = 'http://localhost:4000'   // dev server running locally
 axios.defaults.baseURL = 'https://weary-pink-coypu.cyclic.app'
 
 function App() {

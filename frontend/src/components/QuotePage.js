@@ -7,13 +7,6 @@ import TopBar from './TopBar'
 import spinner from '../assets/images/spinner.gif'
 import StickyFooter from './StickyFooter'
 
-const mapToJson = map => {
-    return JSON.stringify([...map])
-}
-// const jsonToMap = jsonStr => {
-//     return new Map(JSON.parse(jsonStr))
-// }
-
 function QuotePage() {
     const [monthlyBilling, setMonthlyBilling] = useState(true)
     const [addonSelection, setAddonSelection] = useState(null)

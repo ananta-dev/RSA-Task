@@ -1,6 +1,7 @@
 # RSA React Task
 
-Author: Juan Guirao
+Author: **Juan Guirao**
+Date: **14 October 2022**
 
 ## Live App and Deployment Notes
 
@@ -103,7 +104,7 @@ There are several improvements to the webpage I have been thinking of making:
 
 If you would like me to implement any of these, I would be happy to do so. I just would need some guidance on which improvements are considered more important and relevant to the role at hand.
 
-## Update #1
+## Update #1 (15 October 2022)
 
 After reviewing the code in QuotePage.js I realised there was one useEffect that was unnecessary.
 

@@ -99,3 +99,108 @@ There are several improvements to the webpage I have been thinking of making:
 -   Add more error handling around the fetching of data from the API.
 
 If you would like me to implement any of these, I would be happy to do so. I just would need some guidance on which improvements are considered more important and relevant to the role at hand.
+
+## Update #1
+
+After reviewing the code in QuotePage.js I realised there was one useEffect that was unnecessary.
+
+The following code:
+
+```
+    const [totalPrice, setTotalPrice] = useState({
+        monthly: 0,
+        annual: 0,
+    })
+```
+
+```
+    useEffect(() => {
+        if (quote && addons && addonSelection) {
+            const [addonsMonthlyTotal, addonsAnnualTotal] = addons.reduce(
+                (prev, addon) =>
+                    addonSelection.get(addon.id)
+                        ? [
+                              prev[0] + addon.monthlyPrice,
+                              prev[1] + addon.annualPrice,
+                          ]
+                        : prev,
+                [0, 0]
+            )
+            setTotalPrice({
+                monthly: quote.monthlyPrice + addonsMonthlyTotal,
+                annual: quote.annualPrice + addonsAnnualTotal,
+            })
+        }
+    }, [quote, addons, addonSelection])
+```
+
+has been replaced by this:
+
+```
+    let totalPrice
+    if (quote && addons && addonSelection) {
+        const [addonsMonthlyTotal, addonsAnnualTotal] = addons.reduce(
+            (prev, addon) =>
+                addonSelection.get(addon.id)
+                    ? [
+                          prev[0] + addon.monthlyPrice,
+                          prev[1] + addon.annualPrice,
+                      ]
+                    : prev,
+            [0, 0]
+        )
+        totalPrice = {
+            monthly: quote.monthlyPrice + addonsMonthlyTotal,
+            annual: quote.annualPrice + addonsAnnualTotal,
+        }
+    }
+```
+
+Note I am no longer initialising totalPrice to:
+
+```
+    {
+        monthly: 0,
+        annual: 0,
+    }
+```
+
+The reason is I did not like the webpage to show £0.00 for a fraction of a second. Therefore I decided to leave totalPrice undefined until properly set, and display totalPrice conditionally, only after it has been set:
+
+```
+    {totalPrice && (
+        <>
+            {/* prettier-ignore */}
+            <p className='total-price'>
+                £
+                {monthlyBilling
+                    ? totalPrice.monthly.toFixed(2)
+                    : totalPrice.annual.toFixed(2)}
+            </p>
+            <p className='fs-3 lh-1 pb-1'>
+                {monthlyBilling
+                    ? 'per month'
+                    : 'per year'}
+            </p>
+            <p className='fs-6 lh-1 mb-4 tax-text'>
+                This price includes Insurance
+                Premium Tax at the current rate.{' '}
+                {monthlyBilling
+                    ? 'No charge for paying monthly.'
+                    : ''}
+            </p>
+        </>
+    )}
+```
+
+and
+
+```
+    {totalPrice && (
+        <StickyFooter
+            dataFetched={quote && addons}
+            monthlyBilling={monthlyBilling}
+            totalPrice={totalPrice}
+        />
+    )}
+```

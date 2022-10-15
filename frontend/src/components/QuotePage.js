@@ -10,15 +10,12 @@ import StickyFooter from './StickyFooter'
 function QuotePage() {
     const [monthlyBilling, setMonthlyBilling] = useState(true)
     const [addonSelection, setAddonSelection] = useState(null)
-    const [totalPrice, setTotalPrice] = useState({
-        monthly: 0,
-        annual: 0,
-    })
+
     const { quote, quoteIsLoading, quoteError } = useFetchQuote()
     const { addons, addonsAreLoading, addonsError } = useFetchAddons()
 
     // Load monthlyBilling (billing period selection) and addonSelection
-    // from localStorage if found there and set them.
+    // from localStorage if found and set them.
     // This preserves choices in case of browser refresh (F5).
     useEffect(() => {
         const storedMonthlyBilling = window.localStorage.getItem(
@@ -37,9 +34,9 @@ function QuotePage() {
         }
     }, [])
 
-    // If addons has been fetched and set, and addonSelection has not been set,
-    // as in not available in local storage, then set addonSelection to a new
-    // empty selection with no addon selected).
+    // If addons have been fetched and set, and addonSelection has not been set,
+    // because it was not found in local storage, then set addonSelection to a new
+    // empty selection with no addon selected.
     useEffect(() => {
         if (addons && !addonSelection) {
             const noAddonSelected = new Map()
@@ -48,31 +45,12 @@ function QuotePage() {
             })
             setAddonSelection(noAddonSelected)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [addons])
-
-    // If quote, addons or addonSelection change, and none of them is null,
-    // it it time to calculate and set the total price.
-    useEffect(() => {
-        if (quote && addons && addonSelection) {
-            const [addonsMonthlyTotal, addonsAnnualTotal] = addons.reduce(
-                (prev, addon) =>
-                    addonSelection.get(addon.id)
-                        ? [
-                              prev[0] + addon.monthlyPrice,
-                              prev[1] + addon.annualPrice,
-                          ]
-                        : prev,
-                [0, 0]
-            )
-            setTotalPrice({
-                monthly: quote.monthlyPrice + addonsMonthlyTotal,
-                annual: quote.annualPrice + addonsAnnualTotal,
-            })
-        }
-    }, [quote, addons, addonSelection])
 
     // When we change the selection status of one addon, we also save
     // the selection state of all addons (addonSelection) to local storage.
+    // To save Map to local storage we first convert it to array: [...myMap].
     const toggleAddonSelection = addonId => {
         const newSelectionState = !addonSelection.get(addonId)
         const updatedSelection = new Map(
@@ -97,6 +75,24 @@ function QuotePage() {
     const formatDateTime = dateString => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' }
         return new Date(dateString).toLocaleString('en-GB', options)
+    }
+
+    let totalPrice
+    if (quote && addons && addonSelection) {
+        const [addonsMonthlyTotal, addonsAnnualTotal] = addons.reduce(
+            (prev, addon) =>
+                addonSelection.get(addon.id)
+                    ? [
+                          prev[0] + addon.monthlyPrice,
+                          prev[1] + addon.annualPrice,
+                      ]
+                    : prev,
+            [0, 0]
+        )
+        totalPrice = {
+            monthly: quote.monthlyPrice + addonsMonthlyTotal,
+            annual: quote.annualPrice + addonsAnnualTotal,
+        }
     }
 
     return (
@@ -147,24 +143,29 @@ function QuotePage() {
                                     id='price-div'
                                     className='card-body d-flex flex-column justify-content-start align-items-center pb-0'
                                 >
-                                    <p className='total-price'>
-                                        £
-                                        {monthlyBilling
-                                            ? totalPrice.monthly.toFixed(2)
-                                            : totalPrice.annual.toFixed(2)}
-                                    </p>
-                                    <p className='fs-3 lh-1 pb-1'>
-                                        {monthlyBilling
-                                            ? 'per month'
-                                            : 'per year'}
-                                    </p>
-                                    <p className='fs-6 lh-1 mb-4 tax-text'>
-                                        This price includes Insurance Premium
-                                        Tax at the current rate.{' '}
-                                        {monthlyBilling
-                                            ? 'No charge for paying monthly.'
-                                            : ''}
-                                    </p>
+                                    {totalPrice && (
+                                        <>
+                                            {/* prettier-ignore */}
+                                            <p className='total-price'>
+                                                £
+                                                {monthlyBilling
+                                                    ? totalPrice.monthly.toFixed(2)
+                                                    : totalPrice.annual.toFixed(2)}
+                                            </p>
+                                            <p className='fs-3 lh-1 pb-1'>
+                                                {monthlyBilling
+                                                    ? 'per month'
+                                                    : 'per year'}
+                                            </p>
+                                            <p className='fs-6 lh-1 mb-4 tax-text'>
+                                                This price includes Insurance
+                                                Premium Tax at the current rate.{' '}
+                                                {monthlyBilling
+                                                    ? 'No charge for paying monthly.'
+                                                    : ''}
+                                            </p>
+                                        </>
+                                    )}
                                 </div>
                                 <div className='card-footer bg-white border-0 pt-0'>
                                     <BillingToggleButton
@@ -203,11 +204,13 @@ function QuotePage() {
             </div>
 
             {/* -------- Sticky Footer shows total price when price in summary is not visible -------- */}
-            <StickyFooter
-                dataFetched={quote && addons}
-                monthlyBilling={monthlyBilling}
-                totalPrice={totalPrice}
-            />
+            {totalPrice && (
+                <StickyFooter
+                    dataFetched={quote && addons}
+                    monthlyBilling={monthlyBilling}
+                    totalPrice={totalPrice}
+                />
+            )}
         </Styles>
     )
 }

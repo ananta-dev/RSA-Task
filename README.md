@@ -14,6 +14,9 @@ Addons endpoint: [https://weary-pink-coypu.cyclic.app/addons](https://weary-pink
 
 The frontend has been deployed to Netlify, and this is the URL: [https://rsa.freenrg.dev/](https://rsa.freenrg.dev/)
 
+If you wish to see the code for the backend server as deployed to cyclic.sh, you may access it here:
+https://github.com/ananta-dev/RSA-Backend-Only
+
 If you wish to run the JSON Server localy on your computer, you will need change the API URL in App.js. To do so, uncomment this line of text:
 
 `// axios.defaults.baseURL = 'http://localhost:4000'`
@@ -195,7 +198,7 @@ The reason is I did not like the webpage to show £0.00 for a fraction of a seco
 
 and
 
-```
+```g
     {totalPrice && (
         <StickyFooter
             dataFetched={quote && addons}
